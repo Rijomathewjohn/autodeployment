@@ -1,22 +1,47 @@
-This is a repo for a Automated Deployment Script using python3.
-Here the code is pulled from the github and run using nginx server.
+# Automated Deployment Script (Python + Nginx)
 
+This repository contains an Automated Deployment Script written in Python3.  
+The script pulls the latest code from a GitHub repository and deploys it to an Nginx server.
 
-First install nginx server and goto its file location, default is "/var/www/html". Then,
-*must use "sudo" while doing this cmds else you can change the folder permissions.
-_______________________________________________________
+---
+
+## Prerequisites
+1. Install **Nginx** on your server.
+2. Install **Python 3**.
+3. Have a GitHub repository with your website or application code.
+
+---
+
+## Setup
+
+1. Navigate to the Nginx default root directory:
+
+```bash
 cd /var/www/html
+Initialize Git and link it to your repository:
+
+bash
+Copy
+Edit
 sudo git init
 sudo git remote add origin <your-git-repo-url>
 sudo git pull origin main
-_______________________________________________________
-Here you must have create a repository and add its "your-git-repo-url" while you run your commands.
-Then u may ran into a security issue which means says that the directory is not safe, then u can run this "sudo git config --global --add safe.directory /var/www/html"
+Replace <your-git-repo-url> with your repository URL.
 
+If you face a Git safe directory error, run:
 
-So in any path you can add a new file named "deploy.py", also make sure python is installed.
-In the deploy.py file add the script i given above.
+bash
+Copy
+Edit
+sudo git config --global --add safe.directory /var/www/html
+Deployment Script
+In any location, create a file named deploy.py.
 
+Copy the Python deployment script into deploy.py.
 
-Then you can run the python deployment script using "sudo python3 deploy.py"
-This pull latest code from github and release to nginx server.
+Run the script:
+
+bash
+Copy
+Edit
+sudo python3 deploy.py
