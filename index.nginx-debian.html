@@ -1,23 +1,344 @@
-<!DOCTYPE html>
-<html>
+# Create a complete, free-to-use single-file HTML template and save it for download
+html = r"""<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>Welcome to nginx!</title>
-<style>
-html { color-scheme: light dark; }
-body { width: 35em; margin: 0 auto;
-font-family: Tahoma, Verdana, Arial, sans-serif; }
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A modern, responsive, single-file HTML template you can use for free." />
+  <title>Your Brand — Simple, Modern Landing Page</title>
+
+  <!-- Favicons (optional, data URI so it works offline) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%231a73e8'/%3E%3Ctext x='50' y='58' font-size='48' text-anchor='middle' fill='white' font-family='Arial, Helvetica, sans-serif'%3E%F0%9F%9A%80%3C/text%3E%3C/svg%3E" />
+
+  <style>
+    /* ---------- CSS RESET (trimmed) ---------- */
+    *, *::before, *::after { box-sizing: border-box; }
+    html:focus-within { scroll-behavior: smooth; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; }
+    img, picture, svg, video { display: block; max-width: 100%; }
+    input, button, textarea, select { font: inherit; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ---------- THEME ---------- */
+    :root {
+      --bg: #0b1020;
+      --panel: #111735;
+      --text: #e6ecff;
+      --muted: #a9b4d0;
+      --brand: #5b8cff;
+      --brand-2: #6ee7f0;
+      --accent: #ffe68a;
+      --ok: #38d39f;
+      --warn: #ffb64d;
+      --danger: #ff6b6b;
+      --shadow: 0 10px 30px rgba(0,0,0,.25);
+      --radius: 14px;
+      --radius-sm: 10px;
+      --maxw: 1200px;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f7f9ff;
+        --panel: #ffffff;
+        --text: #111827;
+        --muted: #4b5563;
+        --brand: #1a73e8;
+        --brand-2: #0ea5e9;
+        --accent: #f59e0b;
+        --ok: #10b981;
+        --warn: #f59e0b;
+        --danger: #ef4444;
+      }
+    }
+
+    body { background: radial-gradient(1200px 600px at 10% -10%, rgba(91,140,255,.18), transparent 60%),
+                       radial-gradient(1000px 500px at 110% 10%, rgba(110,231,240,.18), transparent 60%),
+                       var(--bg);
+           color: var(--text);
+    }
+
+    .container { width: min(var(--maxw), 100% - 2rem); margin-inline: auto; }
+
+    /* ---------- HEADER ---------- */
+    header { position: sticky; top: 0; z-index: 50; backdrop-filter: saturate(140%) blur(6px);
+             background: color-mix(in hsl, var(--bg) 80%, transparent); border-bottom: 1px solid rgba(255,255,255,.08); }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .8rem 0; }
+    .brand { display: inline-flex; align-items: center; gap: .6rem; font-weight: 800; letter-spacing: .2px; }
+    .brand .logo { width: 36px; height: 36px; border-radius: 9px; display: grid; place-items: center;
+                   background: linear-gradient(135deg, var(--brand), var(--brand-2)); color: #fff; box-shadow: var(--shadow); }
+    .nav-links { display: flex; gap: 1rem; align-items: center; }
+    .nav-links a { padding: .55rem .8rem; border-radius: var(--radius-sm); color: var(--muted); }
+    .nav-links a:hover, .nav-links a:focus { background: rgba(255,255,255,.08); color: var(--text); outline: none; }
+    .menu-btn { display: none; border: 1px solid rgba(255,255,255,.15); padding: .45rem .7rem; border-radius: 10px; background: transparent; color: var(--text); }
+    @media (max-width: 800px) {
+      .nav-links { display: none; }
+      .menu-btn { display: inline-flex; }
+      .mobile-menu { display: none; }
+      .mobile-menu[aria-expanded="true"] { display: grid; gap: .5rem; padding: .5rem 0 1rem; }
+      .mobile-menu a { padding: .7rem; border-radius: 10px; background: rgba(255,255,255,.06); color: var(--text); }
+    }
+
+    /* ---------- HERO ---------- */
+    .hero { padding: 5rem 0 3rem; display: grid; gap: 2rem; align-items: center; }
+    .hero h1 { font-size: clamp(2rem, 5vw + .5rem, 3.25rem); line-height: 1.15; margin: 0 0 .5rem; }
+    .hero p.lede { font-size: clamp(1rem, 1.2vw + .4rem, 1.25rem); color: var(--muted); max-width: 60ch; }
+    .cta { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.4rem; }
+    .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .8rem 1rem; border: 0; border-radius: 999px;
+           text-decoration: none; cursor: pointer; font-weight: 700; }
+    .btn.primary { background: linear-gradient(135deg, var(--brand), var(--brand-2)); color: white; box-shadow: var(--shadow); }
+    .btn.secondary { background: rgba(255,255,255,.08); color: var(--text); border: 1px solid rgba(255,255,255,.12); }
+    .trust { display: grid; grid-template-columns: repeat(5, minmax(90px, 1fr)); gap: 1.2rem; align-items: center; margin-top: 2rem; opacity: .8; }
+    .trust span { text-align: center; padding: .7rem; border-radius: 12px; background: rgba(255,255,255,.06); font-size: .9rem; }
+
+    /* ---------- FEATURE GRID ---------- */
+    .section { padding: 3.5rem 0; }
+    .section h2 { font-size: clamp(1.6rem, 3vw + .5rem, 2.2rem); margin: 0 0 1rem; }
+    .muted { color: var(--muted); }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+    .card { background: var(--panel); border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius); padding: 1.2rem; box-shadow: var(--shadow); }
+    .card h3 { margin-top: 0; }
+    @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+
+    /* ---------- PRICING ---------- */
+    .pricing { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; align-items: stretch; }
+    .price { text-align: center; padding: 1.8rem 1.2rem; border-radius: var(--radius); background: var(--panel); border: 1px solid rgba(255,255,255,.1); }
+    .price.highlight { outline: 3px solid color-mix(in hsl, var(--brand) 60%, transparent); transform: translateY(-4px); }
+    .price h3 { margin: 0 .5rem .4rem; }
+    .price .amount { font-size: 2.2rem; font-weight: 800; }
+    .price ul { list-style: "✓  "; padding-left: 1.2rem; text-align: left; }
+    @media (max-width: 900px) { .pricing { grid-template-columns: 1fr; } }
+
+    /* ---------- FAQ (Accordion) ---------- */
+    details { background: var(--panel); border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius); padding: 1rem 1.1rem; }
+    details + details { margin-top: .7rem; }
+    summary { cursor: pointer; font-weight: 700; }
+    summary::marker { content: "› "; }
+    details[open] summary::marker { content: "⌄ "; }
+
+    /* ---------- CONTACT ---------- */
+    form { display: grid; gap: .8rem; }
+    input, textarea { background: #0e1430; color: var(--text); border: 1px solid rgba(255,255,255,.18);
+                      padding: .8rem .9rem; border-radius: 10px; width: 100%; }
+    textarea { min-height: 140px; resize: vertical; }
+    label { font-size: .95rem; color: var(--muted); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
+    @media (max-width: 700px) { .form-row { grid-template-columns: 1fr; } }
+
+    /* ---------- FOOTER ---------- */
+    footer { border-top: 1px solid rgba(255,255,255,.08); padding: 2rem 0; color: var(--muted); font-size: .95rem; }
+    .foot { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    .foot a { color: var(--muted); text-decoration: underline; }
+
+    /* ---------- UTIL ---------- */
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    .pill { display: inline-block; border: 1px solid rgba(255,255,255,.18); padding: .3rem .6rem; border-radius: 999px; font-size: .85rem; color: var(--muted); }
+  </style>
 </head>
 <body>
-<h1>Welcome to nginx!</h1>
-<p>If you see this page, the nginx web server is successfully installed and
-working. Further configuration is required.</p>
+  <!-- ======= Header / Navigation ======= -->
+  <header>
+    <div class="container nav" role="navigation" aria-label="Main navigation">
+      <a href="#" class="brand" aria-label="Home">
+        <span class="logo" aria-hidden="true">★</span>
+        <span>YourBrand</span>
+      </a>
 
-<p>For online documentation and support please refer to
-<a href="http://nginx.org/">nginx.org</a>.<br/>
-Commercial support is available at
-<a href="http://nginx.com/">nginx.com</a>.</p>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+      </nav>
 
-<p><em>Thank you for using nginx.</em></p>
+      <button class="menu-btn" aria-expanded="false" aria-controls="mobile-menu" id="menuBtn">Menu</button>
+    </div>
+    <div id="mobile-menu" class="container mobile-menu" aria-expanded="false">
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </header>
+
+  <!-- ======= Hero ======= -->
+  <section class="hero container">
+    <div>
+      <span class="pill">Launch faster</span>
+      <h1>Build a clean landing page in minutes.</h1>
+      <p class="lede">This single-file template gives you a modern, responsive starting point. No frameworks, no build step, no tracking—just HTML, CSS and a tiny sprinkle of JS.</p>
+      <div class="cta">
+        <a class="btn primary" href="#pricing">Get Started</a>
+        <a class="btn secondary" href="#features" aria-label="Learn more about features">See Features</a>
+      </div>
+      <div class="trust" aria-label="Trusted by">
+        <span>Acme Co.</span>
+        <span>Globex</span>
+        <span>Initech</span>
+        <span>Umbrella</span>
+        <span>Stark</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= Features ======= -->
+  <section id="features" class="section container">
+    <h2>Everything you need to start</h2>
+    <p class="muted">Drop it onto any host and go. Edit text, swap colors, add sections—you're the boss.</p>
+    <div class="grid" role="list">
+      <article class="card" role="listitem">
+        <h3>Responsive by default</h3>
+        <p>Layouts use modern CSS grid and fluid typography so it looks great on phones, tablets, and desktops.</p>
+      </article>
+      <article class="card" role="listitem">
+        <h3>Accessible & semantic</h3>
+        <p>Uses landmarks, focus styles, and labels so more people can use your site comfortably.</p>
+      </article>
+      <article class="card" role="listitem">
+        <h3>100% yours</h3>
+        <p>No external fonts, no tracking, no license headaches. Just edit and ship.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ======= Pricing ======= -->
+  <section id="pricing" class="section container">
+    <h2>Simple, honest pricing</h2>
+    <p class="muted">Start free. Upgrade when it makes sense.</p>
+    <div class="pricing">
+      <div class="price card" aria-label="Free plan">
+        <h3>Free</h3>
+        <p class="amount">$0</p>
+        <ul>
+          <li>Single-page template</li>
+          <li>Basic support docs</li>
+          <li>MIT License</li>
+        </ul>
+        <a class="btn secondary" href="#contact">Download</a>
+      </div>
+      <div class="price card highlight" aria-label="Pro plan">
+        <h3>Pro</h3>
+        <p class="amount">$29</p>
+        <ul>
+          <li>3 extra page layouts</li>
+          <li>Email capture component</li>
+          <li>Priority support</li>
+        </ul>
+        <a class="btn primary" href="#contact">Go Pro</a>
+      </div>
+      <div class="price card" aria-label="Team plan">
+        <h3>Team</h3>
+        <p class="amount">$99</p>
+        <ul>
+          <li>All Pro features</li>
+          <li>Unlimited sites</li>
+          <li>Team assets</li>
+        </ul>
+        <a class="btn secondary" href="#contact">Talk to us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= FAQ ======= -->
+  <section id="faq" class="section container">
+    <h2>Frequently asked questions</h2>
+    <details>
+      <summary>Can I use this template commercially?</summary>
+      <p>Yes. The code is provided under the MIT License below. Keep or remove the credit—your call.</p>
+    </details>
+    <details>
+      <summary>How do I change the colors and fonts?</summary>
+      <p>Edit the <code>:root</code> variables for colors. Fonts use your system’s default for performance.</p>
+    </details>
+    <details>
+      <summary>Do I need a backend?</summary>
+      <p>No. This is a static page. If you need forms, connect to a form backend service or email link.</p>
+    </details>
+  </section>
+
+  <!-- ======= Contact ======= -->
+  <section id="contact" class="section container">
+    <h2>Let’s talk</h2>
+    <p class="muted">Questions, feedback, or want a custom version? Send a message.</p>
+    <form id="contactForm" aria-describedby="formNote">
+      <div class="form-row">
+        <div>
+          <label for="name">Name</label>
+          <input id="name" name="name" placeholder="Ada Lovelace" required />
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="you@example.com" required />
+        </div>
+      </div>
+      <div>
+        <label for="message">Message</label>
+        <textarea id="message" name="message" placeholder="Hi! I’m interested in..." required></textarea>
+      </div>
+      <button class="btn primary" type="submit">Send</button>
+      <p id="formNote" class="sr-only">Form uses client-side validation only. Replace JS to connect a real backend.</p>
+    </form>
+    <div id="formStatus" role="status" aria-live="polite" class="muted" style="margin-top:.5rem;"></div>
+  </section>
+
+  <footer>
+    <div class="container foot">
+      <p>© <span id="year"></span> YourBrand. Built with ♥ — MIT Licensed.</p>
+      <div>
+        <a href="#" aria-label="Privacy policy">Privacy</a> ·
+        <a href="#" aria-label="Terms of service">Terms</a> ·
+        <a href="mailto:hello@example.com" aria-label="Email us">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ---- Accessible mobile menu toggle ----
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuBtn?.addEventListener('click', () => {
+      const expanded = menuBtn.getAttribute('aria-expanded') === 'true';
+      menuBtn.setAttribute('aria-expanded', String(!expanded));
+      mobileMenu.setAttribute('aria-expanded', String(!expanded));
+    });
+
+    // ---- Contact form (client-side only) ----
+    const form = document.getElementById('contactForm');
+    const statusEl = document.getElementById('formStatus');
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form));
+      // naive validation
+      if (!data.name || !data.email || !data.message) {
+        statusEl.textContent = 'Please fill out all fields.';
+        statusEl.style.color = getComputedStyle(document.documentElement).getPropertyValue('--warn');
+        return;
+      }
+      // simulate success
+      statusEl.textContent = 'Thanks! Your (demo) message was captured locally.';
+      statusEl.style.color = getComputedStyle(document.documentElement).getPropertyValue('--ok');
+      form.reset();
+      // TODO: connect to your real backend or a form service
+    });
+
+    // ---- Year ----
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+  <!-- ======= License =======
+  MIT License
+
+  Copyright (c) 2025 Your Name
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  -->
 </body>
 </html>
+"""
+path = "/mnt/data/free-landing-page.html"
+with open(path, "w", encoding="utf-8") as f:
+    f.write(html)
+path
